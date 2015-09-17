@@ -29,10 +29,10 @@ function remoteConnection(conn) {
             });
         });
         // Send messages
-        navigator.geolocation.getCurrentPosition(function(position){
+        navigator.geolocation.getCurrentPosition(updateLocation);
+        navigator.geolocation.watchPosition(updateLocation)
+function updateLocation(position){
             conn.send(JSON.stringify({lat:position.coords.latitude, lng: position.coords.longitude}));
-        });
-        navigator.geolocation.watchPosition(conn.send)
-
+        }
     });
 }
