@@ -22,7 +22,7 @@ function remoteConnection(conn) {
         // Receive messages
         conn.on('data', function (data) {
             new google.maps.Marker({
-                position: data,
+                position: {lat:data.coords.latitude, lng: data.coords.longitude},
                 map: window.map,
                 title:  new Date()
             });
