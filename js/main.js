@@ -21,13 +21,17 @@ function remoteConnection(conn) {
     conn.on('open', function () {
         // Receive messages
         conn.on('data', function (data) {
+          data= JSON.parse(data);
             new google.maps.Marker({
-                position: {lat:data.coords.latitude, lng: data.coords.longitude},
+                position:data,
                 map: window.map,
-                title:  new Date()
+                title:   Date.now.toString()
             });
         });
         // Send messages
+        navigator.geolocation.getCurrentPosition(function(position){
+            conn.send(JSON.stringify({lat:position.coords.latitude, lng: position.coords.longitude}));
+        });
         navigator.geolocation.watchPosition(conn.send)
 
     });
